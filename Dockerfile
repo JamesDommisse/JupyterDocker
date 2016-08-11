@@ -10,9 +10,11 @@ RUN adduser -S $user
 
 RUN pip install Jupyter
 COPY conf/jupyter_notebook_config.py /home/$user/.jupyter/jupyter_notebook_config.py
+ENV PYTHONPATH $PYTHONPATH:/usr/src
 
 ENTRYPOINT ["/sbin/tini", "--"]
 
 USER $user
 EXPOSE 8888
+WORKDIR /home/$user/
 CMD ["jupyter", "notebook"]
