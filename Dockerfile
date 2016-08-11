@@ -1,12 +1,18 @@
 FROM python:3.5-alpine
 
+ARG user=gordon
+
 RUN apk add --no-cache g++
 RUN apk add --update tini
 ENV TINI_VERSION v0.6.0
 
+RUN adduser -S $user
+
 RUN pip install Jupyter
+COPY conf/jupyter_notebook_config.py /home/$user/.jupyter/jupyter_notebook_config.py
 
 ENTRYPOINT ["/sbin/tini", "--"]
 
+USER $user
 EXPOSE 8888
-CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0"]
+CMD ["jupyter", "notebook"]
