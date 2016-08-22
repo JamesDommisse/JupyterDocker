@@ -1,0 +1,15 @@
+version: '2' 
+
+services:
+  jupyter:
+    build: .
+    ports:
+      - "8888:8888"
+    links: 
+      - mongo_host
+    volumes:
+      - $PWD/src:/src
+      - $PWD/notebooks:/notebooks
+
+  mongo_host:
+    image: mongo
