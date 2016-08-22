@@ -2,7 +2,10 @@ FROM python:3.5-slim
 
 ARG user=gordon
 
-ENV TINI_VERSION v0.6.0
+# Add Tini
+ENV TINI_VERSION v0.10.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
 
 RUN groupadd -r $user && useradd -r -g $user $user
 
@@ -14,7 +17,7 @@ RUN pip install numpy
 COPY conf/requirements.txt /tmp/
 RUN pip install --requirement /tmp/requirements.txt
 
-ENTRYPOINT ["/sbin/tini", "--"]
+ENTRYPOINT ["/tini", "--"]
 
 USER $user
 EXPOSE 8888
