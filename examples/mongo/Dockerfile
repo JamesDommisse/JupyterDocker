@@ -1,3 +1,4 @@
 FROM jamesdommisse/jupyter
 
-RUN pip install pymongo
+COPY conf/requirements.txt /tmp/
+RUN pip install --requirement /tmp/requirements.txt
