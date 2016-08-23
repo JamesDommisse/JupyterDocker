@@ -6,7 +6,7 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
 RUN pip install Jupyter
-ENV PYTHONPATH $PYTHONPATHl:/usr/src
+ENV PYTHONPATH $PYTHONPATH:/src
 
 RUN pip install numpy
 COPY conf/requirements.txt /tmp/
