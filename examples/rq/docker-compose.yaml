@@ -1,0 +1,26 @@
+version: '2' 
+
+services:
+  jupyter:
+    build:
+      context: .
+      dockerfile: jupyter.docker
+    ports:
+      - "8888:8888"
+    depends_on:
+      - redis_host
+    volumes:
+      - $PWD/src:/src
+      - $PWD/notebooks:/notebooks
+
+  worker:
+    build:
+      context: .
+      dockerfile: worker.docker 
+    volumes:
+      - $PWD/src:/usr/src
+    depends_on:
+      - redis_host
+
+  redis_host:
+    image: redis

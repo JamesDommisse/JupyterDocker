@@ -1,0 +1,15 @@
+FROM python:3.5
+
+# Add Tini
+ENV TINI_VERSION v0.10.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+
+ENV PYTHONPATH $PYTHONPATH:/usr/src
+COPY conf/requirements.txt /tmp/
+RUN pip install --requirement /tmp/requirements.txt
+
+COPY conf/worker_setting.py /setting.py
+ENTRYPOINT ["/tini", "--"]
+
+CMD ["rq", "worker","-c", "setting"]
